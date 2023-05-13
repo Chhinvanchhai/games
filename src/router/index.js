@@ -18,6 +18,16 @@ const router = createRouter({
       path: '/snake',
       name: 'snake',
       component: () => import('../views/Snake.vue')
+    },
+    {
+      path: '/canvas',
+      name: 'canvas',
+      component: () => import('../views/Canvas.vue')
+    },
+    {
+      path: '/rek',
+      name: 'rek',
+      component: () => import('../views/Rek.vue')
     }
   ]
 })

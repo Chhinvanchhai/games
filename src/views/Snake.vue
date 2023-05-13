@@ -53,12 +53,12 @@ function onGetElement() {
   shape.value = 16;
   //Speed Control
 
-  var action = document.querySelector(".set");
-  action.addEventListener("click", () => {
-    var speedcontrol = document.getElementById("speedcontrol").value;
-    speed.value = speedcontrol;
-    document.getElementById("speednumber").innerHTML = speed.value;
-  });
+  // var action = document.querySelector(".set");
+  // action.addEventListener("click", () => {
+  //   // var speedcontrol = document.getElementById("speedcontrol").value;
+  //   // speed.value = speedcontrol;
+  //   // document.getElementById("speednumber").innerHTML = speed.value;
+  // });
   //Time of play
   (s.value = 0), (m.value = 0);
   timetableM.value = [];
@@ -129,10 +129,8 @@ function loop() {
     shape.value - 1,
     shape.value - 1
   );
+  
   //loop game cell
-  //
-  //
-  //
   snake.value.cells.forEach(function (cell, index) {
     //do it 4 step
     context.value.fillStyle = "red";
@@ -156,7 +154,7 @@ function loop() {
       //
       mark.value = mark.value + 10;
       document.getElementById("score").value = mark.value;
-      document.getElementById("speednumber").innerHTML = speed.value;
+      // document.getElementById("speednumber").innerHTML = speed.value;
       if (speed.value === 2) {
         speed.value += 0;
         document.getElementById("speednumber").innerHTML = "Max Speed";
@@ -295,24 +293,24 @@ function stop() {
       </div>
       <div>
         <H3>Speed Control</H3>
-        <select id="speedcontrol">
+        <select id="speedcontrol" v-model="speed">
           <option value="30">Auto</option>
           <option value="15">Medium</option>
           <option value="6">Fast</option>
           <option value="3">++Fast</option>
         </select>
-        <button class="set">Ok</button>
-        <p>Speed: <span id="speednumber"></span></p>
+        <!-- <button class="set">Ok</button> -->
+        <p>Speed: <span id="speednumber">{{ speed}}</span></p>
 
         <h3>During of play</h3>
         <p>Minute: <span id="m"></span> : <span id="s"></span></p>
         <br />
         <button @click="play">Play</button>
-        <button onclick="stop()">Reset&Stop</button><br /><br /><br />
-        <button class="btn" onclick="left()">Left</button>
-        <button class="btn" onclick="up()">Up</button><br /><br />
-        <button class="btn" onclick="down()">Down</button>
-        <button class="btn" onclick="right()">Right</button>
+        <button @click="stop">Reset&Stop</button><br /><br /><br />
+        <button class="btn" @click="left">Left</button>
+        <button class="btn" @click="up">Up</button><br /><br />
+        <button class="btn" @click="down">Down</button>
+        <button class="btn" @click="right">Right</button>
       </div>
     </div>
     <!--Time -->
