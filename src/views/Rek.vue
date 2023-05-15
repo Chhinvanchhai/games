@@ -1,6 +1,5 @@
 <template>
   <div style="background: #fff; padding: 32px">
-    <!-- <canvas style="width: 100%; height: 100%" ref="canvasRek"></canvas> -->
     <canvas
       ref="canvasRek"
       width="800"
@@ -14,37 +13,18 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-// import $ from '../jquery'
 const canvasRek = ref(null);
 const ctx = ref(null);
-
-// variables used to get mouse position on the canvas
 const offsetX = ref(800);
 const offsetY = ref(800);
 const scrollX = ref(null);
 const scrollY = ref(null);
 const lineColor = ref("#ddd");
 const canvasSize = ref(600);
+
 const setting = ref({
-  positions: [
-    {
-      id: 1,
-      value: "",
-      x: "",
-      y: "",
-    },
-  ],
+  positions: [],
 });
-for (let i = 1; i <= 63; i++) {
-  setting.value.positions.push({
-    id: i,
-    value: "",
-    x: "",
-    y: "",
-    h: "",
-    w: "",
-  });
-}
 const startX = ref();
 const startY = ref();
 const datas = ref([]);
@@ -75,41 +55,118 @@ const onPrepare = () => {
   ctx.value = canvasRek.value.getContext("2d");
   canvasRek.value.height = canvasSize.value;
   canvasRek.value.width = canvasSize.value;
-  console.log(
-    "canvasRek.value",
-    canvasRek.value.scrollY,
-    canvasRek.value.offsetTop
-  );
+  // console.log(
+  //   "canvasRek.value",
+  //   canvasRek.value.scrollY,
+  //   canvasRek.value.offsetTop
+  // );
   offsetX.value = canvasRek.value.offsetLeft;
   offsetY.value = canvasRek.value.offsetTop;
   scrollX.value = canvasRek.value.scrollX;
   scrollY.value = canvasRek.value.scrollY;
 
-  draw();
-  // listen for mouse events
-  // console.log('canvsref', canvasRek.value);
+  const iRef = ref(1);
+  for (let i = 0; i <= 63; i++) {
+    if (iRef.value >= 9) {
+      iRef.value = 1;
+    }
+    // for child in row
 
-  // canvasRek.value.mousedown(function (e) {
-  //   handleMouseDown(e);
-  // });
-  // canvasRek.value.mousemove(function (e) {
-  //   handleMouseMove(e);
-  // });
-  // canvasRek.value.mouseup(function (e) {
-  //   handleMouseUp(e);
-  // });
-  // canvasRek.value.mouseout(function (e) {
-  //   handleMouseOut(e);
-  // });
+    iRef.value += 1;
+    if (i > 0 && i <= 8 * 1) {
+      let isRow = canvasSize.value / 8*8*2;
+      let isCol = (canvasSize.value / 8) * iRef.value - 8 * 8 * 2;
+      setting.value.positions.push({
+        id: i,
+        value: "",
+        x: isCol,
+        y: isRow,
+        h: 40,
+        w: 40,
+      });
+    }
+    if (i > 8 * 1 && i <= 8 * 2) {
+
+    }
+    if (i > 8 * 2 && i <= 8 * 3) {
+      let isRow =  canvasSize.value / 32 ;
+      let isCol = (canvasSize.value / 8) * iRef.value - 8 * 8 * 2;
+      setting.value.positions.push({
+        id: i,
+        value: "",
+        x: isCol,
+        y: isRow,
+        h: 40,
+        w: 40,
+      });
+    }
+    if (i > 8 * 3 && i <= 8 * 4) {
+    }
+    if (i > 8 * 4 && i <= 8 * 5) {
+    }
+    if (i > 8 * 5 && i <= 8 * 6) {
+      let isRow =  canvasSize.value / 32;
+      let isCol = (canvasSize.value / 8) * iRef.value - 8 * 8 * 2;
+      setting.value.positions.push({
+        id: i,
+        value: "",
+        x: isCol,
+        y: isRow,
+        h: 40,
+        w: 40,
+      });
+    }
+    if (i > 8 * 6 && i <= 8 * 7) {
+    }
+    if (i > 8 * 7 && i <= 8 * 8) {
+      let isRow = canvasSize.value ;
+      let isCol =  (canvasSize.value / 8) * iRef.value - 8 * 8 * 2;
+      setting.value.positions.push({
+        id: i,
+        value: "",
+        x: isCol,
+        y: isRow,
+        h: 40,
+        w: 40,
+      });
+    }
+
+    // if (row1.includes(i)) {
+
+    // } else {
+    //   // setting.value.positions.push({
+    //   //   id: i,
+    //   //   value: "",
+    //   //   x: 0,
+    //   //   y: 0,
+    //   //   h: 40,
+    //   //   w: 40,
+    //   // });
+    // }
+  }
+  console.log(" setting.value.positions", setting.value.positions);
+  draw();
 };
 
 function draw() {
   ctx.value.clearRect(0, 0, canvasRek.value.width, canvasRek.value.height);
   drawLines(2, lineColor);
-  for (let i = 0; i < datas.value.length; i++) {
-    let box = datas.value[i];
-    ctx.value.fillRect(box.x, box.y, box.w, box.h);
+
+  for (let i = 1; i <= setting.value.positions.length; i++) {
+    let box = setting.value.positions[i];
+    if (box) {
+      if (box.x) {
+        ctx.value.fillRect(box?.x || 0, box?.y || 0, box.w, box.h);
+      }
+    }
   }
+  // for (let j = 0; j < 8; j++) {
+  //   for (let k = 0; k < 8; k++) {
+  //     if (j == 0) {
+  //       ctx.value.fillRect(box.x, box.y, box.w, box.h);
+  //     }
+  //   }
+  // }
 }
 
 function drawLines(lineWidth, strokeStyle) {
@@ -131,18 +188,18 @@ function drawLines(lineWidth, strokeStyle) {
 }
 
 function dataHittest(x, y, textIndex) {
-  let d = datas.value[textIndex];
-  y = y - (d.h*1.5);
-  console.log("x, y, d", x, y, d);
+  let d = setting.value.positions[textIndex];
+  y = y - d.h * 1.5;
+  // console.log(x >= d.x && x <= d.x + d.w && y >= d.y - d.h && y <= d.y);
   return x >= d.x && x <= d.x + d.w && y >= d.y - d.h && y <= d.y;
 }
 
 function handleMouseDown(e) {
-  console.log("Mouse", e);
+  // console.log("Mouse", e);
   e.preventDefault();
   startX.value = parseInt(e.clientX - offsetX.value);
   startY.value = parseInt(e.clientY - offsetY.value);
-  for (let j = 0; j < datas.value.length; j++) {
+  for (let j = 0; j < setting.value.positions.length; j++) {
     if (dataHittest(startX.value, startY.value, j)) {
       selectBox.value = j;
     }
@@ -170,8 +227,18 @@ function handleMouseMove(e) {
   let dy = mouseY - startY.value;
   startX.value = mouseX;
   startY.value = mouseY;
-  datas.value[selectBox.value].x += dx;
-  datas.value[selectBox.value].y += dy;
+  setting.value.positions[selectBox.value].x += dx;
+  setting.value.positions[selectBox.value].y += dy;
+  // lendth 600
+  // height 600
+  //
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      // 1
+      console.log("col", 8 * i);
+      // 2
+    }
+  }
   draw();
 }
 
